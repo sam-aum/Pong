@@ -65,11 +65,11 @@ function love.load()
 
     -- velocity and position variables for our ball when play starts
     ballX = VIRTUAL_WIDTH / 2 - 2
-    ballY = VIRTUAL_HEIGHT / 2 - 2
+    ballY = VIRTUAL_HEIGHT / 2 - 2 
 
     -- math.random returns a random value between the left and right number
     ballDX = math.random(2) == 1 and 100 or -100
-    ballDY = math.random(-50, 50)
+    ballDY = math.random(-50, 50) * 1.5
 
     -- game state variable used to transition between different parts of the game
     -- (used for beginning, menus, main game, high score list, etc.)
