@@ -91,7 +91,7 @@ function love.load()
 
     -- initialize our player paddles; make them global so that they can be
     -- detected by other functions and modules
-    player1 = Paddle(10, 30, 5, 20)
+    player1 = Paddle(10, 30, 5, 100)
     player2 = Paddle(VIRTUAL_WIDTH - 10, VIRTUAL_HEIGHT - 30, 5, 20)
 
     -- place a ball in the middle of the screen
@@ -238,13 +238,13 @@ function love.update(dt)
     end
 
     -- player 2
-    -- if love.keyboard.isDown('up') then
-    --     player2.dy = -PADDLE_SPEED
-    -- elseif love.keyboard.isDown('down') then
-    --     player2.dy = PADDLE_SPEED
-    -- else
-    --     player2.dy = 0
-    -- end
+    if love.keyboard.isDown('up') then
+        player2.dy = -PADDLE_SPEED
+    elseif love.keyboard.isDown('down') then
+        player2.dy = PADDLE_SPEED
+    else
+        player2.dy = 0
+    end
 
     -- AI-controlled paddle for Player 2
     
