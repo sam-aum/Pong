@@ -6,6 +6,8 @@ VIRTUAL_HEIGHT = 243
 
 push = require 'push'
 
+PADDLE_SPEED = 200
+
 function love.load()
 
     -- Set the default filter
@@ -19,6 +21,11 @@ function love.load()
         resizable = true
     })
 
+    player1y = 10
+    player2y = VIRTUAL_HEIGHT - 30
+
+
+    -- Initialize push state:
     push.setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, { upscale = 'normal' })
 end
 
@@ -29,6 +36,29 @@ function love.keypressed(key)
         love.event.quit()
     end
 end
+
+function love.update(dt)
+    if love.keyboard.isDown('w') then
+        player1y = player1y + -PADDLE_SPEED * dt
+    end
+    if love.keyboard.isDown('s') then
+        player1y = player1y + PADDLE_SPEED * dt
+    end
+
+    if love.keyboard.isDown('up') then
+        player2y = player2y + -PADDLE_SPEED * dt
+    end
+    if love.keyboard.isDown('down') then
+        player2y = player2y + PADDLE_SPEED * dt
+    end
+
+end
+
+
+
+
+
+
 
 
 function love.draw()
@@ -44,10 +74,10 @@ function love.draw()
     
     
     -- render paddle 1 (left side)
-    love.graphics.rectangle('fill', 10, 30, 5, 20)
+    love.graphics.rectangle('fill', 10, player1y, 5, 20)
     
     -- render paddle 2 (right side)
-    love.graphics.rectangle('fill', VIRTUAL_WIDTH - 15, VIRTUAL_HEIGHT - 50, 5, 20)
+    love.graphics.rectangle('fill', VIRTUAL_WIDTH - 15, player2y, 5, 20)
 
     -- render ball
     love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 - 2, VIRTUAL_HEIGHT / 2 - 2, 4, 4)
