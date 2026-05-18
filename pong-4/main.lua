@@ -1,29 +1,4 @@
---[[
-    GD50 2018
-    Pong Remake
 
-    pong-4
-    "The Ball Update"
-
-    -- Main Program --
-
-    Author: Colton Ogden
-    cogden@cs50.harvard.edu
-
-    Originally programmed by Atari in 1972. Features two
-    paddles, controlled by players, with the goal of getting
-    the ball past your opponent's edge. First to 10 points wins.
-
-    This version is built to more closely resemble the NES than
-    the original Pong machines or the Atari 2600 in terms of
-    resolution, though in widescreen (16:9) so it looks nicer on 
-    modern systems.
-]]
-
--- push is a library that will allow us to draw our game at a virtual
--- resolution, instead of however large our window is; used to provide
--- a more retro aesthetic
---
 -- https://github.com/Ulydev/push
 push = require 'push'
 
@@ -52,12 +27,14 @@ function love.load()
     -- set LÖVE2D's active font to the smallFont obect
     love.graphics.setFont(smallFont)
 
-    -- initialize window with virtual resolution
-    push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
+    love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT, {
+        resizable = true,
         fullscreen = false,
-        resizable = false,
         vsync = true
     })
+
+    -- initialize window with virtual resolution
+    push.setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, { upscale = 'normal' })
 
     -- paddle positions on the Y axis (they can only move up or down)
     player1Y = 30
@@ -65,11 +42,11 @@ function love.load()
 
     -- velocity and position variables for our ball when play starts
     ballX = VIRTUAL_WIDTH / 2 - 2
-    ballY = VIRTUAL_HEIGHT / 2 - 2 
+    ballY = VIRTUAL_HEIGHT / 2 - 2
 
     -- math.random returns a random value between the left and right number
     ballDX = math.random(2) == 1 and 100 or -100
-    ballDY = math.random(-50, 50) * 1.5
+    ballDY = math.random(-50, 50)
 
     -- game state variable used to transition between different parts of the game
     -- (used for beginning, menus, main game, high score list, etc.)
@@ -78,7 +55,7 @@ function love.load()
 end
 
 --[[
-    Runs every frame, with "dt" passed in, our delta in seconds 
+    Runs every frame, with "dt" passed in, our delta in seconds
     since the last frame, which LÖVE2D supplies us.
 ]]
 function love.update(dt)
@@ -114,7 +91,7 @@ function love.update(dt)
 end
 
 --[[
-    Keyboard handling, called by LÖVE2D each frame; 
+    Keyboard handling, called by LÖVE2D each frame;
     passes in the key we pressed so we can access.
 ]]
 function love.keypressed(key)
@@ -129,7 +106,7 @@ function love.keypressed(key)
             gameState = 'play'
         else
             gameState = 'start'
-            
+
             -- start ball's position in the middle of the screen
             ballX = VIRTUAL_WIDTH / 2 - 2
             ballY = VIRTUAL_HEIGHT / 2 - 2
@@ -144,12 +121,12 @@ function love.keypressed(key)
 end
 
 --[[
-    Called after update by LÖVE2D, used to draw anything to the screen, 
+    Called after update by LÖVE2D, used to draw anything to the screen,
     updated or otherwise.
 ]]
 function love.draw()
     -- begin rendering at virtual resolution
-    push:apply('start')
+    push.start()
 
     -- clear the screen with a specific color; in this case, a color similar
     -- to some versions of the original Pong
@@ -174,5 +151,5 @@ function love.draw()
     love.graphics.rectangle('fill', ballX, ballY, 4, 4)
 
     -- end rendering at virtual resolution
-    push:apply('end')
+    push.finish()
 end
