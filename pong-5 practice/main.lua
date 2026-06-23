@@ -1,5 +1,5 @@
 push = require 'push'
--- Class = require 'class'
+Class = require 'class'
 
 require 'Paddle'
 
@@ -38,7 +38,7 @@ function love.load()
     
     
     player1 = Paddle(10, 30, 5, 20)
-    player2y = Paddle(VIRTUAL_WIDTH - 10, VIRTUAL_HEIGHT - 30, 5, 20)
+    player2 = Paddle(VIRTUAL_WIDTH - 10, VIRTUAL_HEIGHT - 50, 5, 20)
     
     
     gameState = 'start'
@@ -126,7 +126,7 @@ function love.draw()
     player2:render()
 
     -- render ball
-    love.graphics.rectangle('fill', ballX, ballY, 4, 4)
+    -- love.graphics.rectangle('fill', ballX, ballY, 4, 4)
     
     push:finish()
 
