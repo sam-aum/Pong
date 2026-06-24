@@ -2,6 +2,7 @@ push = require 'push'
 Class = require 'class'
 
 require 'Paddle'
+require 'Ball'
 
 
 WINDOW_WIDTH = 1280
@@ -40,6 +41,8 @@ function love.load()
     player1 = Paddle(10, 30, 5, 20)
     player2 = Paddle(VIRTUAL_WIDTH - 10, VIRTUAL_HEIGHT - 50, 5, 20)
     
+    -- place a ball in the middle of the screen
+    ball = Ball(VIRTUAL_WIDTH / 2 - 2, VIRTUAL_HEIGHT / 2 - 2, 4, 4)
     
     gameState = 'start'
 
@@ -71,6 +74,12 @@ function love.update(dt)
         player2.dy = 0
     end
 
+
+    if gameState == 'play' then
+        ball:update(dt)
+    end
+
+
     player1:update(dt)
     player2:update(dt)
 
@@ -97,11 +106,8 @@ function love.keypressed(key)
         else 
             gameState = 'start'
 
-            ballX = VIRTUAL_WIDTH / 2 - 2
-            ballY = VIRTUAL_HEIGHT / 2 - 2
-
-            ballDX = math.random(2) == 1 and 100 or -100
-            ballDY = math.random(-50, 50)
+            -- ball's new reset method
+            ball:reset()
         end
     end
 end
@@ -125,8 +131,9 @@ function love.draw()
     player1:render()
     player2:render()
 
-    -- render ball
-    -- love.graphics.rectangle('fill', ballX, ballY, 4, 4)
+
+    -- render ball using its class's render method
+    ball:render()
     
     push:finish()
 
