@@ -11,8 +11,8 @@ WINDOW_HEIGHT = 720
 VIRTUAL_WIDTH = 432
 VIRTUAL_HEIGHT = 243
 
-
 PADDLE_SPEED = 200
+
 
 function love.load()
 
@@ -25,11 +25,13 @@ function love.load()
     math.randomseed(os.time())
 
     smallFont = love.graphics.newFont('font.ttf', 8)
+    
+    -- larger font for drawing the score on the screen
+    scoreFont = love.graphics.newFont('font.ttf', 32)
 
     -- set LÖVE2D's active font to the smallFont obect
     love.graphics.setFont(smallFont)
 
-    
     love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT, {
         resizable = true,
         fullscreen = false,
@@ -38,8 +40,6 @@ function love.load()
 
     -- initialize window with virtual resolution
     push.setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, { upscale = 'normal' })
-
-    
     
     player1 = Paddle(10, 30, 5, 20)
     player2 = Paddle(VIRTUAL_WIDTH - 10, VIRTUAL_HEIGHT - 50, 5, 20)
@@ -49,13 +49,7 @@ function love.load()
     
     gameState = 'start'
 
-
 end
-
-
-
-
-
 
 
 function love.update(dt)
@@ -77,21 +71,14 @@ function love.update(dt)
         player2.dy = 0
     end
 
-
     if gameState == 'play' then
         ball:update(dt)
     end
 
-
     player1:update(dt)
     player2:update(dt)
 
-
-
-
-
 end
-
 
 
 function love.keypressed(key)
@@ -113,14 +100,15 @@ function love.keypressed(key)
 end
 
 
-
 function love.draw()
 
     push:start()
 
-
-
     love.graphics.clear(40/255, 45/255, 52/255, 255/255)
+
+    -- draw different things based on the state of the game
+    love.graphics.setFont(smallFont)
+    
 
     if gameState == 'start' then
         love.graphics.printf("Hello, Game State", 0, 20, VIRTUAL_WIDTH, "center")
@@ -135,6 +123,16 @@ function love.draw()
     -- render ball using its class's render method
     ball:render()
 
+    displayFPS()
+
     push:finish()
 
+end
+
+function displayFPS()
+    -- simple FPS display across all states
+    love.graphics.setFont(smallFont)
+    love.graphics.setColor(0, 1, 0, 1)
+    love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 10, 10)
+    love.graphics.setColor(1, 1, 1, 1)
 end
