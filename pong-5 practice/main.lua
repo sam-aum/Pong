@@ -83,10 +83,7 @@ function love.update(dt)
     player1:update(dt)
     player2:update(dt)
 
-    if gameState == 'play' then
-        ballX = ballX + ballDX * dt
-        ballY = ballY + ballDY * dt
-    end
+
 
 
 
@@ -134,7 +131,7 @@ function love.draw()
 
     -- render ball using its class's render method
     ball:render()
-    
+
     push:finish()
 
 end
