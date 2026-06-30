@@ -44,6 +44,7 @@ function love.load()
 
     -- initialize window with virtual resolution
     push.setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, { upscale = 'normal' })
+
     
     -- initialize score variables, used for rendering on the screen and keeping
     -- track of the winner
@@ -64,6 +65,13 @@ function love.load()
 
 end
 
+--[[
+    Called by LÖVE whenever we resize the screen; here, we just want to pass in the
+    width and height to push so our virtual resolution can be resized as needed.
+]]
+function love.resize(w, h)
+    push.resize(w, h)
+end
 
 function love.update(dt)
     -- player 1 movement
